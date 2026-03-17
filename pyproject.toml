@@ -1,5 +1,5 @@
 [project]
-name = "sora-cli"
+name = "acedata-sora-cli"
 version = "0.1.0"
 description = "CLI tool for Sora AI Video Generation via AceDataCloud API"
 readme = "README.md"
