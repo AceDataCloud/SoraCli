@@ -102,7 +102,6 @@ class TestGenerateCommands:
         result = runner.invoke(cli, ["--token", "", "generate", "test"])
         assert result.exit_code != 0
 
-
     @respx.mock
     def test_image_to_video_json(self, runner, mock_video_response):
         respx.post("https://api.acedata.cloud/sora/videos").mock(
@@ -123,7 +122,6 @@ class TestGenerateCommands:
         assert result.exit_code == 0
         data = json.loads(result.output)
         assert data["success"] is True
-
 
 
 # ─── Task Commands ─────────────────────────────────────────────────────────

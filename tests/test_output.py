@@ -4,11 +4,11 @@ from sora_cli.core.output import (
     DEFAULT_MODEL,
     SORA_MODELS,
     print_error,
-    print_video_result,
     print_json,
     print_models,
     print_success,
     print_task_result,
+    print_video_result,
 )
 
 
@@ -22,7 +22,7 @@ class TestConstants:
         assert DEFAULT_MODEL in SORA_MODELS
 
     def test_models_include_all(self):
-        for model in ['sora-2', 'sora-2-pro']:
+        for model in ["sora-2", "sora-2-pro"]:
             assert model in SORA_MODELS
 
 

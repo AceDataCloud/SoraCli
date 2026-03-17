@@ -11,9 +11,9 @@ from importlib import metadata
 import click
 from dotenv import load_dotenv
 
-from sora_cli.commands.video import generate, image_to_video
+from sora_cli.commands.info import config, models, orientations, sizes
 from sora_cli.commands.task import task, tasks_batch, wait
-from sora_cli.commands.info import models, config, orientations, sizes
+from sora_cli.commands.video import generate, image_to_video
 
 load_dotenv()
 

@@ -5,7 +5,11 @@ import click
 from sora_cli.core.client import get_client
 from sora_cli.core.exceptions import SoraError
 from sora_cli.core.output import (
-    SORA_MODELS, DEFAULT_MODEL, print_error, print_json, print_video_result,
+    DEFAULT_MODEL,
+    SORA_MODELS,
+    print_error,
+    print_json,
+    print_video_result,
 )
 
 
@@ -157,4 +161,3 @@ def image_to_video(
     except SoraError as e:
         print_error(e.message)
         raise SystemExit(1) from e
-
