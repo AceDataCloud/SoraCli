@@ -1,7 +1,7 @@
 # Sora CLI
 
-[![PyPI version](https://img.shields.io/pypi/v/acedata-sora-cli.svg)](https://pypi.org/project/acedata-sora-cli/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/acedata-sora-cli.svg)](https://pypi.org/project/acedata-sora-cli/)
+[![PyPI version](https://img.shields.io/pypi/v/sora-pro-cli.svg)](https://pypi.org/project/sora-pro-cli/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/sora-pro-cli.svg)](https://pypi.org/project/sora-pro-cli/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/AceDataCloud/SoraCli/actions/workflows/ci.yaml/badge.svg)](https://github.com/AceDataCloud/SoraCli/actions/workflows/ci.yaml)
@@ -33,10 +33,10 @@ Get your API token from [AceDataCloud Platform](https://platform.acedata.cloud/)
 
 ```bash
 # Install with pip
-pip install acedata-sora-cli
+pip install sora-pro-cli
 
 # Or with uv (recommended)
-uv pip install acedata-sora-cli
+uv pip install sora-pro-cli
 
 # Or from source
 git clone https://github.com/AceDataCloud/SoraCli.git
@@ -154,9 +154,9 @@ mypy sora_cli
 ## Docker
 
 ```bash
-docker pull ghcr.io/acedatacloud/acedata-sora-cli:latest
+docker pull ghcr.io/acedatacloud/sora-pro-cli:latest
 docker run --rm -e ACEDATACLOUD_API_TOKEN=your_token \
-  ghcr.io/acedatacloud/acedata-sora-cli generate "A test video"
+  ghcr.io/acedatacloud/sora-pro-cli generate "A test video"
 ```
 
 ## Project Structure
@@ -193,7 +193,7 @@ SoraCli/
 | Usage | Direct shell, scripts, CI/CD | Claude, VS Code, MCP clients |
 | Output | Rich tables / JSON | Structured MCP responses |
 | Automation | Shell scripts, piping | AI agent workflows |
-| Install | `pip install acedata-sora-cli` | `pip install mcp-sora` |
+| Install | `pip install sora-pro-cli` | `pip install mcp-sora` |
 
 Both tools use the same AceDataCloud API and share the same API token.
 
