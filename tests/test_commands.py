@@ -98,9 +98,88 @@ class TestGenerateCommands:
         )
         assert result.exit_code == 0
 
-    def test_generate_no_token(self, runner):
-        result = runner.invoke(cli, ["--token", "", "generate", "test"])
+    @respx.mock
+    def test_generate_with_version(self, runner, mock_video_response):
+        respx.post("https://api.acedata.cloud/sora/videos").mock(
+            return_value=Response(200, json=mock_video_response)
+        )
+        result = runner.invoke(
+            cli,
+            [
+                "--token",
+                "test-token",
+                "generate",
+                "test",
+                "--version",
+                "2.0",
+                "--size",
+                "1280x720",
+                "--duration",
+                "8",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+
+    @respx.mock
+    def test_generate_with_character(self, runner, mock_video_response):
+        respx.post("https://api.acedata.cloud/sora/videos").mock(
+            return_value=Response(200, json=mock_video_response)
+        )
+        result = runner.invoke(
+            cli,
+            [
+                "--token",
+                "test-token",
+                "generate",
+                "test",
+                "--character-url",
+                "https://cdn.acedata.cloud/char.mp4",
+                "--character-start",
+                "0",
+                "--character-end",
+                "2",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_generate_invalid_duration(self, runner):
+        result = runner.invoke(
+            cli,
+            ["--token", "test-token", "generate", "test", "--duration", "5"],
+        )
         assert result.exit_code != 0
+
+    def test_generate_invalid_size(self, runner):
+        result = runner.invoke(
+            cli,
+            ["--token", "test-token", "generate", "test", "--size", "480p"],
+        )
+        assert result.exit_code != 0
+
+    @respx.mock
+    def test_image_to_video_with_version(self, runner, mock_video_response):
+        respx.post("https://api.acedata.cloud/sora/videos").mock(
+            return_value=Response(200, json=mock_video_response)
+        )
+        result = runner.invoke(
+            cli,
+            [
+                "--token",
+                "test-token",
+                "image-to-video",
+                "Animate this",
+                "-i",
+                "https://example.com/photo.jpg",
+                "--version",
+                "2.0",
+                "--size",
+                "720x1280",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
 
     @respx.mock
     def test_image_to_video_json(self, runner, mock_video_response):
@@ -176,7 +255,7 @@ class TestInfoCommands:
     def test_sizes(self, runner):
         result = runner.invoke(cli, ["sizes"])
         assert result.exit_code == 0
-        assert "480p" in result.output
+        assert "small" in result.output
 
     def test_config(self, runner):
         result = runner.invoke(cli, ["config"])

@@ -6,7 +6,10 @@ from sora_cli.core.client import get_client
 from sora_cli.core.exceptions import SoraError
 from sora_cli.core.output import (
     DEFAULT_MODEL,
+    DEFAULT_SIZE,
+    SORA_DURATIONS,
     SORA_MODELS,
+    SORA_SIZES,
     print_error,
     print_json,
     print_video_result,
@@ -26,19 +29,40 @@ from sora_cli.core.output import (
     "--orientation",
     type=click.Choice(["landscape", "portrait"]),
     default="landscape",
-    help="Video orientation.",
+    help="Video orientation. Only applicable for version 1.0.",
 )
 @click.option(
     "--duration",
-    type=int,
-    default=5,
-    help="Duration in seconds.",
+    type=click.Choice(SORA_DURATIONS),
+    default="15",
+    help="Duration in seconds. For v1.0: 10 or 15 (sora-2), or 10, 15, 25 (sora-2-pro). For v2.0: 4, 8, or 12.",
 )
 @click.option(
     "--size",
-    type=click.Choice(["480p", "720p", "1080p"]),
-    default="480p",
-    help="Video resolution size.",
+    type=click.Choice(SORA_SIZES),
+    default=DEFAULT_SIZE,
+    help="Video size/resolution. For v1.0: small or large. For v2.0: pixel resolution (e.g. 720x1280).",
+)
+@click.option(
+    "--version",
+    type=click.Choice(["1.0", "2.0"]),
+    default="1.0",
+    help="API version. 1.0 supports orientation/character params; 2.0 supports pixel-based sizes.",
+)
+@click.option(
+    "--character-url", default=None, help="Video URL of the character to use (v1.0 only)."
+)
+@click.option(
+    "--character-start",
+    type=int,
+    default=None,
+    help="Starting second for the character appearance (v1.0, required when --character-url is set).",
+)
+@click.option(
+    "--character-end",
+    type=int,
+    default=None,
+    help="Ending second for the character appearance (v1.0, required when --character-url is set).",
 )
 @click.option("--callback-url", default=None, help="Webhook callback URL.")
 @click.option("--json", "output_json", is_flag=True, help="Output raw JSON.")
@@ -48,8 +72,12 @@ def generate(
     prompt: str,
     model: str,
     orientation: str,
-    duration: int,
+    duration: str,
     size: str,
+    version: str,
+    character_url: str | None,
+    character_start: int | None,
+    character_end: int | None,
     callback_url: str | None,
     output_json: bool,
 ) -> None:
@@ -62,6 +90,8 @@ def generate(
       sora generate "A cinematic scene of a sunset over the ocean"
 
       sora generate "A cat playing with yarn" -m sora-2
+
+      sora generate "A hero scene" --version 2.0 --size 1280x720 --duration 8
     """
     client = get_client(ctx.obj.get("token"))
     try:
@@ -70,8 +100,12 @@ def generate(
             "model": model,
             "callback_url": callback_url,
             "orientation": orientation,
-            "duration": duration,
+            "duration": int(duration),
             "size": size,
+            "version": version,
+            "character_url": character_url,
+            "character_start": character_start,
+            "character_end": character_end,
         }
 
         result = client.generate_video(**payload)  # type: ignore[arg-type]
@@ -105,19 +139,25 @@ def generate(
     "--orientation",
     type=click.Choice(["landscape", "portrait"]),
     default="landscape",
-    help="Video orientation.",
+    help="Video orientation. Only applicable for version 1.0.",
 )
 @click.option(
     "--duration",
-    type=int,
-    default=5,
-    help="Duration in seconds.",
+    type=click.Choice(SORA_DURATIONS),
+    default="15",
+    help="Duration in seconds. For v1.0: 10 or 15 (sora-2), or 10, 15, 25 (sora-2-pro). For v2.0: 4, 8, or 12.",
 )
 @click.option(
     "--size",
-    type=click.Choice(["480p", "720p", "1080p"]),
-    default="480p",
-    help="Video resolution size.",
+    type=click.Choice(SORA_SIZES),
+    default=DEFAULT_SIZE,
+    help="Video size/resolution. For v1.0: small or large. For v2.0: pixel resolution (e.g. 720x1280).",
+)
+@click.option(
+    "--version",
+    type=click.Choice(["1.0", "2.0"]),
+    default="1.0",
+    help="API version. 1.0 supports orientation/multiple images; 2.0 uses first image and pixel-based sizes.",
 )
 @click.option("--callback-url", default=None, help="Webhook callback URL.")
 @click.option("--json", "output_json", is_flag=True, help="Output raw JSON.")
@@ -128,8 +168,9 @@ def image_to_video(
     image_urls: tuple[str, ...],
     model: str,
     orientation: str,
-    duration: int,
+    duration: str,
     size: str,
+    version: str,
     callback_url: str | None,
     output_json: bool,
 ) -> None:
@@ -142,6 +183,8 @@ def image_to_video(
       sora image-to-video "Animate this scene" -i https://example.com/photo.jpg
 
       sora image-to-video "Bring to life" -i img1.jpg -i img2.jpg
+
+      sora image-to-video "Action shot" -i img.jpg --version 2.0 --size 1280x720
     """
     client = get_client(ctx.obj.get("token"))
     try:
@@ -150,8 +193,9 @@ def image_to_video(
             image_urls=list(image_urls),
             model=model,
             orientation=orientation,
-            duration=duration,
+            duration=int(duration),
             size=size,
+            version=version,
             callback_url=callback_url,
         )
         if output_json:

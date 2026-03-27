@@ -36,9 +36,12 @@ def sizes() -> None:
     table.add_column("Size", style="bold cyan")
     table.add_column("Description")
 
-    table.add_row("480p", "Standard definition")
-    table.add_row("720p", "HD")
-    table.add_row("1080p", "Full HD")
+    table.add_row("small", "Standard definition (version 1.0)")
+    table.add_row("large", "HD — sora-2-pro only (version 1.0)")
+    table.add_row("720x1280", "Portrait HD resolution (version 2.0)")
+    table.add_row("1280x720", "Landscape HD resolution (version 2.0)")
+    table.add_row("1024x1792", "Portrait Full HD resolution (version 2.0)")
+    table.add_row("1792x1024", "Landscape Full HD resolution (version 2.0)")
 
     console.print(table)
 
