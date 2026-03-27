@@ -102,6 +102,9 @@ Most commands support:
 ```
 --json          Output raw JSON (for piping/scripting)
 --model TEXT    Sora model version (default: sora-2)
+--duration CHOICE  Duration in seconds: 4, 8, 10, 12, 15, 25 (default: 15)
+--size TEXT     Video size (default: small). Use pixel resolutions for --version 2.0
+--version TEXT  API version: 1.0 or 2.0 (default: 1.0)
 ```
 
 ## Available Models
@@ -109,7 +112,25 @@ Most commands support:
 | Model | Version | Notes |
 |-------|---------|-------|
 | `sora-2` | Standard | Fast generation, good quality (default) |
-| `sora-2-pro` | Pro | Highest quality, more detailed |
+| `sora-2-pro` | Pro | Highest quality, more detailed, longer duration support |
+
+## Available Sizes
+
+| Size | API Version | Description |
+|------|-------------|-------------|
+| `small` | 1.0 | Standard definition (default) |
+| `large` | 1.0 | HD — sora-2-pro only |
+| `720x1280` | 2.0 | Portrait HD resolution |
+| `1280x720` | 2.0 | Landscape HD resolution |
+| `1024x1792` | 2.0 | Portrait Full HD resolution |
+| `1792x1024` | 2.0 | Landscape Full HD resolution |
+
+## Available Durations
+
+Valid duration values (seconds): `4`, `8`, `10`, `12`, `15`, `25`
+
+- **Version 1.0**: 10 or 15s (sora-2); 10, 15, or 25s (sora-2-pro). Default: 15
+- **Version 2.0**: 4, 8, or 12s. Default: 4
 
 
 ## Configuration

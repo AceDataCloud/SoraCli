@@ -17,6 +17,23 @@ SORA_MODELS = [
 
 DEFAULT_MODEL = "sora-2"
 
+# Available sizes (version 1.0: small/large; version 2.0: pixel resolutions)
+SORA_SIZES = [
+    "small",
+    "large",
+    "720x1280",
+    "1280x720",
+    "1024x1792",
+    "1792x1024",
+]
+
+DEFAULT_SIZE = "small"
+
+# Available durations in seconds (stored as strings for click.Choice compatibility)
+SORA_DURATIONS = ["4", "8", "10", "12", "15", "25"]
+
+DEFAULT_DURATION = "15"
+
 
 def print_json(data: Any) -> None:
     """Print data as formatted JSON."""
@@ -112,7 +129,7 @@ def print_models() -> None:
     table.add_row(
         "sora-2-pro",
         "Pro",
-        "Highest quality, more detailed",
+        "Highest quality, more detailed, longer duration support",
     )
 
     console.print(table)
