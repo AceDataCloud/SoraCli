@@ -206,9 +206,9 @@ SoraCli/
 └── README.md
 ```
 
-## Sora CLI vs MCP Sora
+## Sora CLI vs Sora MCP
 
-| Feature | Sora CLI | MCP Sora |
+| Feature | Sora CLI | Sora MCP |
 |---------|-----------|-----------|
 | Interface | Terminal commands | MCP protocol |
 | Usage | Direct shell, scripts, CI/CD | Claude, VS Code, MCP clients |
